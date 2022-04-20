@@ -11,7 +11,7 @@
     self.Board.prototype = {
         get elements() {
             var elements = this.bars;
-            elements.push(this.ball);
+            //elements.push(this.ball);
             return elements;
         }
     };
@@ -51,44 +51,55 @@
     }
 
     self.BoardView.prototype = {
+        clean: function(){
+            this.ctx.clearRect(0, 0, this.board.width, this.board.height);
+        },
         draw: function(){
             for(var i = this.board.elements.length - 1; i >= 0; i--) {
                 var el = this.board.elements[i];
                 draw(this.ctx, el);
             };
+        },
+        play: function(){
+            this.clean()
+            this.draw();
         }
     }
 
     function draw(ctx, element) {
-        if(element !== null && element.hasOwnProperty("kind")){
             switch(element.kind){
                 case "rectangle":
                     ctx.fillRect(element.x, element.y, element.width, element.height)
                     break;
             }
         }
-
-    }
 })();
 
 var board = new Board(800,400);
-var bar = new Bar(20, 100, 40, 100, board);
-var bar = new Bar(740, 100, 40, 100, board);
+var bar1 = new Bar(20, 100, 40, 100, board);
+var bar2 = new Bar(740, 100, 40, 100, board);
 var canvas = document.getElementById("canvas");
 var board_view = new BoardView(canvas, board);
 
 document.addEventListener("keydown", function(event){
-    if(event.key === "ArrowUp"){
-        bar.up();
+    event.preventDefault();
+    if(event.key === "w"){
+        bar1.up();
+    }
+    else if(event.key === "s"){
+        bar1.down();
+    }
+    else if(event.key === "ArrowUp"){
+        bar2.up();
     }
     else if(event.key === "ArrowDown"){
-        bar.down();
+        bar2.down();
     }
-    console.log(""+bar);
 });
 
-window.addEventListener("load", main);
+window.requestAnimationFrame(controller);
 
-function main(){
-    board_view.draw();
+function controller(){
+    board_view.play();
+    window.requestAnimationFrame(controller);
 }
