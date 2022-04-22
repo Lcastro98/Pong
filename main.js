@@ -1,4 +1,13 @@
 (function(){
+    /**
+     * Permite crear un tablero de juego
+     * @param {Number} width 
+     * @param {Number} height
+     * 
+     * @version 1.0.0
+     * @author Lorena Castro <Lcastro0398@gmail.com>
+     * @since 1.0.0
+     */
     self.Board = function(width, height) {
         this.width = width;
         this.height = height
@@ -19,6 +28,17 @@
 })();
 
 (function(){
+    /**
+     * Permite crear una pelota
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Number} radius 
+     * @param {object} board
+     * 
+     * @version 1.0.0
+     * @author Lorena Castro <Lcastro0398@gmail.com>
+     * @since 1.0.0 
+     */
     self.Ball = function(x, y, radius, board){
         this.x = x;
         this.y = y;
@@ -53,7 +73,6 @@
             var normalized_intersect_y = relative_intersect_y / (bar.height / 2);
 
             this.bounce_angle = normalized_intersect_y * this.max_bounce_angle;
-            console.log(this.bounce_angle);
             this.speed_y = this.speed * -Math.sin(this.bounce_angle);
             this.speed_x = this.speed * Math.cos(this.bounce_angle);
 
@@ -65,6 +84,18 @@
 })();
 
 (function(){
+    /**
+     * Permite crear una barra
+     * @param {Number} x 
+     * @param {Number} y 
+     * @param {Number} width 
+     * @param {Number} height 
+     * @param {object} board
+     * 
+     * @version 1.0.0
+     * @author Lorena Castro <Lcastro0398@gmail.com>
+     * @since 1.0.0
+     */
     self.Bar = function(x, y, width, height, board) {
         this.x = x;
         this.y = y;
@@ -89,6 +120,15 @@
 })();
 
 (function(){
+    /**
+     * Permite visualizar los elementos del juego
+     * @param {object} canvas 
+     * @param {object} board
+     * 
+     * @version 1.0.0
+     * @author Lorena Castro <Lcastro0398@gmail.com>
+     * @since 1.0.0 
+     */
     self.BoardView = function(canvas, board){
         this.canvas = canvas;
         this.canvas.width = board.width;
@@ -151,6 +191,15 @@
 		return hit;
     }
 
+    /**
+     * Permite pintar los elementos del juego
+     * @param {Object} ctx 
+     * @param {Object} element
+     * 
+     * @version 1.0.0
+     * @author Lorena Castro <Lcastro0398@gmail.com>
+     * @since 1.0.0 
+     */
     function draw(ctx, element) {
             switch(element.kind){
                 case "rectangle":
@@ -173,6 +222,13 @@ var canvas = document.getElementById("canvas");
 var board_view = new BoardView(canvas, board);
 var ball = new Ball(400, 200, 10, board);
 
+/**
+ * Asigna las teclas que permiten interctuar con el juego
+ * 
+ * @version 1.0.0
+ * @author Lorena Castro <Lcastro0398@gmail.com>
+ * @since 1.0.0
+ */
 document.addEventListener("keydown", function(event){
 
     if(event.key === "w"){
@@ -201,8 +257,11 @@ board_view.draw();
 
 window.requestAnimationFrame(controller);
 
-
+/**
+ * Inicializa el juego
+ */
 function controller(){
     board_view.play();
     window.requestAnimationFrame(controller);
 }
+
